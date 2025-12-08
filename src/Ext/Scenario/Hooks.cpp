@@ -68,3 +68,48 @@ DEFINE_HOOK(0x50C186, GetHouseIndexFromName_PlayerAtX, 0x6)
 DEFINE_JUMP(LJMP, 0x44F8D5, 0x44F8E1);
 
 #pragma endregion
+
+// score options
+// score music for single player missions
+DEFINE_HOOK(0x6C924F, ScoreDialog_Handle_ScoreThemeA, 0x5)
+{
+	GET(char*, pTitle, ECX);
+	GET(char*, pMessage, ESI);
+	CSFText& Title = ScenarioExt::Global()->ParTitle;
+	CSFText& Message = ScenarioExt::Global()->ParMessage;
+
+	strcpy(pTitle, Title.Label);
+	strcpy(pMessage, Message.Label);
+
+	return 0;
+}
+
+DEFINE_HOOK(0x6C935C, ScoreDialog_Handle_ScoreThemeB, 0x5)
+{
+	REF_STACK(char*, pTheme, 0x0);
+
+	const char* theme = ScenarioExt::Global()->ScoreCampaignTheme.data();
+
+	if (strcmp(theme, "") && strcmp(theme, "0"))
+		strcpy(pTheme, theme);
+
+	return 0;
+}
+
+DEFINE_HOOK(0x5AE192, SelectNextMission, 0x6)
+{
+	const char* nextMission = ScenarioExt::Global()->NextMission.data();
+
+	if (strcmp(nextMission, "") && strcmp(nextMission, "0"))
+		R->EAX(nextMission);
+
+	return 0;
+}
+
+DEFINE_HOOK(0x689EB0, ScenarioClass_ReadMap_SkipHeader, 0x6)
+{
+	if (SessionClass::Instance.IsCampaign())
+		return 0x689FC0;
+
+	return 0;
+}

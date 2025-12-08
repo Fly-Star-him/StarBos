@@ -52,6 +52,11 @@ public:
 		DynamicVectorClass<TechnoClass*> SpecialTracker; // For special purposes, like tracking technos that are forced moving. Currently unused.
 		DynamicVectorClass<TechnoClass*> FallingDownTracker; // Technos that are falling down, parachutes and land technos falling from bridge.
 
+		CSFText ParTitle;
+		CSFText ParMessage;
+		PhobosFixedString<0x20> ScoreCampaignTheme;
+		PhobosFixedString<0x20> NextMission;
+
 		ExtData(ScenarioClass* OwnerObject) : Extension<ScenarioClass>(OwnerObject)
 			, ShowBriefing { false }
 			, BriefingTheme { -1 }
@@ -69,6 +74,11 @@ public:
 			, UndergroundTracker {}
 			, SpecialTracker {}
 			, FallingDownTracker {}
+
+			, ParTitle { nullptr }
+			, ParMessage { nullptr }
+			, ScoreCampaignTheme {}
+			, NextMission {}
 		{ }
 
 		void SetVariableToByID(bool bIsGlobal, int nIndex, char bState);

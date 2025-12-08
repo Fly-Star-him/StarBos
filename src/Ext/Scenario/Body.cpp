@@ -148,6 +148,9 @@ void ScenarioExt::ExtData::LoadFromINIFile(CCINIClass* const pINI)
 		this->ShowBriefing = pINI->ReadBool(GameStrings::Basic, "ShowBriefing", this->ShowBriefing);
 		this->BriefingTheme = pINI->ReadTheme(GameStrings::Basic, "BriefingTheme", this->BriefingTheme);
 	}
+
+	ParTitle = ScenarioClass::Instance->OverParTitle;
+	ParMessage = ScenarioClass::Instance->OverParMessage;
 }
 
 template <typename T>
@@ -171,6 +174,10 @@ void ScenarioExt::ExtData::Serialize(T& Stm)
 		.Process(this->UndergroundTracker)
 		.Process(this->SpecialTracker)
 		.Process(this->FallingDownTracker)
+		.Process(this->ParTitle)
+		.Process(this->ParMessage)
+		.Process(this->ScoreCampaignTheme)
+		.Process(this->NextMission)
 		;
 }
 

@@ -86,6 +86,13 @@ bool TActionExt::Execute(TActionClass* pThis, HouseClass* pHouse, ObjectClass* p
 	case PhobosTriggerAction::DeleteBanner:
 		return TActionExt::DeleteBanner(pThis, pHouse, pObject, pTrigger, location);
 
+	case PhobosTriggerAction::ScoreCampaignText:
+		return TActionExt::ScoreCampaignText(pThis, pHouse, pObject, pTrigger, location);
+	case PhobosTriggerAction::ScoreCampaignTheme:
+		return TActionExt::ScoreCampaignTheme(pThis, pHouse, pObject, pTrigger, location);
+	case PhobosTriggerAction::SetNextMission:
+		return TActionExt::SetNextMission(pThis, pHouse, pObject, pTrigger, location);
+
 	default:
 		bHandled = false;
 		return true;
@@ -576,6 +583,29 @@ bool TActionExt::DeleteBanner(TActionClass* pThis, HouseClass* pHouse, ObjectCla
 	return true;
 }
 
+bool TActionExt::ScoreCampaignText(TActionClass* pThis, HouseClass* pHouse, ObjectClass* pObject, TriggerClass* pTrigger, CellStruct const& location)
+{
+	if (pThis->Param3 == 0)
+		ScenarioExt::Global()->ParMessage = pThis->Text;
+	else
+		ScenarioExt::Global()->ParTitle = pThis->Text;
+
+	return true;
+}
+
+bool TActionExt::ScoreCampaignTheme(TActionClass* pThis, HouseClass* pHouse, ObjectClass* pObject, TriggerClass* pTrigger, CellStruct const& location)
+{
+	ScenarioExt::Global()->ScoreCampaignTheme = pThis->Text;
+
+	return true;
+}
+
+bool TActionExt::SetNextMission(TActionClass* pThis, HouseClass* pHouse, ObjectClass* pObject, TriggerClass* pTrigger, CellStruct const& location)
+{
+	ScenarioExt::Global()->NextMission = pThis->Text;
+
+	return true;
+}
 
 // =============================
 // container
